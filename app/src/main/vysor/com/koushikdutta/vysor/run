@@ -1,0 +1,3 @@
+export CLASSPATH=/data/app/mzj.djyscreen-1.apk &&
+export CLASSPATH=$CLASSPATH:/data/app/mzj.djyscreen-2.apk &&
+exec app_process /system/bin mzj.djyscreen.Main '$@'
