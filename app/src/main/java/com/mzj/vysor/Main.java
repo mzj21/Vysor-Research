@@ -6,7 +6,6 @@ import android.os.Looper;
 
 import com.koushikdutta.async.BufferedDataSink;
 import com.koushikdutta.async.callback.CompletedCallback;
-import com.koushikdutta.async.http.WebSocket;
 import com.koushikdutta.async.http.server.AsyncHttpServer;
 import com.koushikdutta.async.http.server.AsyncHttpServerRequest;
 import com.koushikdutta.async.http.server.AsyncHttpServerResponse;
@@ -24,47 +23,18 @@ public class Main {
         try {
             Looper.prepare();
             AsyncHttpServer asyncHttpServer = new AsyncHttpServer();
-            registerWebSocket(asyncHttpServer);
+            registerHttp(asyncHttpServer);
             asyncHttpServer.listen(Param.LISTEN_PORT);
 
             Point point = SurfaceControlVirtualDisplayFactory.getEncodeSize();
             Param.ScreenWIDTH = point.x;
             Param.ScreenHEIGHT = point.y;
+            System.out.print("width = " + Param.ScreenWIDTH + ";height = " + Param.ScreenHEIGHT + "\n");
             System.out.print("start" + "\n");
             Looper.loop();
         } catch (Exception e) {
             LogUtil.d(e.toString());
         }
-    }
-
-    /**
-     * WebSocket
-     */
-    public static void registerWebSocket(AsyncHttpServer httpServer) {
-        httpServer.websocket("/h264", new AsyncHttpServer.WebSocketRequestCallback() {
-            @Override
-            public void onConnected(final WebSocket webSocket, AsyncHttpServerRequest request) {
-                AndroidDeviceUtils.turnScreenOn();
-                StdOutDevice.genStdOutDevice(webSocket);
-            }
-        });
-        httpServer.websocket("/screenshot.jpg", new AsyncHttpServer.WebSocketRequestCallback() {
-            @Override
-            public void onConnected(WebSocket webSocket, AsyncHttpServerRequest request) {
-                try {
-                    long startTime = System.currentTimeMillis();
-                    Bitmap bitmap = ScreenShotFb.screenshot();
-                    ByteArrayOutputStream bout = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bout);
-                    bout.flush();
-                    webSocket.send(bout.toByteArray());
-                    long endTime = System.currentTimeMillis();
-                    LogUtil.d("response time=" + (endTime - startTime));
-                } catch (Exception e) {
-                    webSocket.send(e.toString());
-                }
-            }
-        });
     }
 
     /**

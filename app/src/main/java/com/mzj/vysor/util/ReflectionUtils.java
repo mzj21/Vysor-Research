@@ -38,9 +38,7 @@ public class ReflectionUtils {
             method.setAccessible(true);
             try {
                 return method.invoke(object, parameters);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException | InvocationTargetException e) {
+            } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }

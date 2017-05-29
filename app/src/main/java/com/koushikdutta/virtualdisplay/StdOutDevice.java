@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import com.koushikdutta.async.BufferedDataSink;
 import com.koushikdutta.async.ByteBufferList;
-import com.koushikdutta.async.http.WebSocket;
 import com.mzj.vysor.ClientConfig;
 
 import java.nio.ByteBuffer;
@@ -18,18 +17,11 @@ public class StdOutDevice extends EncoderDevice {
     ByteBuffer codecPacket;
     OutputBufferCallback outputBufferCallback;
     MediaFormat outputFormat;
-    WebSocket mWebSocket;
     BufferedDataSink sink;
-
-    public StdOutDevice(WebSocket webSocket) {
-        super("stdout");
-        bitrate = 500000;
-        mWebSocket = webSocket;
-    }
 
     public StdOutDevice(BufferedDataSink sink) {
         super("stdout");
-        bitrate = 500000;
+        bitrate = 50000;
         this.sink = sink;
     }
 
@@ -105,9 +97,6 @@ public class StdOutDevice extends EncoderDevice {
                     if (sink != null && sink.isOpen()) {
                         sink.write(new ByteBufferList(byteBuffers));
                     }
-                    if (mWebSocket != null && mWebSocket.isOpen()) {
-                        mWebSocket.send(byteBuffers);
-                    }
                     if (outputBufferCallback != null) {
                         outputBufferCallback.onOutputBuffer(byteBuffer, bufferInfo);
                     }
@@ -141,19 +130,6 @@ public class StdOutDevice extends EncoderDevice {
     }
 
     public static StdOutDevice current;
-
-    public static StdOutDevice genStdOutDevice(WebSocket webSocket) {
-        if (current != null) {
-            current.stop();
-        }
-        current = null;
-        current = new StdOutDevice(webSocket);
-        if (ClientConfig.resolution != 0.0) {
-            current.setUseEncodingConstraints(false);
-        }
-        current.registerVirtualDisplay(new SurfaceControlVirtualDisplayFactory(), 0);
-        return current;
-    }
 
     public static StdOutDevice genStdOutDevice(BufferedDataSink sink) {
         if (current != null) {
