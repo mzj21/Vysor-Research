@@ -22,5 +22,5 @@ Build->Build APK
 ```
 
 ### 参考
-* [https://github.com/zhangyongproject/android/tree/973727203a7716c4a9b5e08482953f2f86eb7f0c/RCS/screenmirror/src/com/cyjh/screenmirror)
-* [https://github.com/steven000/DjyScreen)
+* https://github.com/zhangyongproject/android/tree/973727203a7716c4a9b5e08482953f2f86eb7f0c/RCS/screenmirror/src/com/cyjh/screenmirror
+* https://github.com/steven000/DjyScreen
