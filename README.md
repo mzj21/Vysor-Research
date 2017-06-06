@@ -1,22 +1,22 @@
 ### Vysor-Research
 Vysor研究
 
-##Step 1 
+# Step 1 
 ```
 Build->Build APK
 ```
 
-##Step 2 
+# Step 2 
 ```
 运行run.bat
 ```
 
-##Step 3 
+# Step 3 
 ```
 运行play.bat,操作手机使画面不同，等待
 ```
 
-##额外
+# 额外
 ```
 运行screenshot.bat,会出现截图
 ```
