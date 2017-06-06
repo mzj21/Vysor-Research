@@ -12,7 +12,6 @@ import com.koushikdutta.async.http.server.AsyncHttpServerResponse;
 import com.koushikdutta.async.http.server.HttpServerRequestCallback;
 import com.koushikdutta.virtualdisplay.StdOutDevice;
 import com.koushikdutta.virtualdisplay.SurfaceControlVirtualDisplayFactory;
-import com.mzj.vysor.util.AndroidDeviceUtils;
 import com.xing.xbase.util.LogUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -63,7 +62,6 @@ public class Main {
             @Override
             public void onRequest(final AsyncHttpServerRequest request, final AsyncHttpServerResponse response) {
                 System.out.print("start h264" + "\n");
-                AndroidDeviceUtils.turnScreenOn();
                 response.getHeaders().set("Access-Control-Allow-Origin", "*");
                 response.getHeaders().set("Connection", "close");
                 response.setClosedCallback(new CompletedCallback() {

@@ -79,7 +79,7 @@ public class StdOutDevice extends EncoderDevice {
                         codecPacket.flip();
                     }
                     ByteBuffer order = ByteBufferList.obtain(12 + bufferInfo.size).order(ByteOrder.LITTLE_ENDIAN);
-                    order.putInt(-4 + (12 + bufferInfo.size));
+                    order.putInt(bufferInfo.size + 12 - 4);
                     order.putInt((int) TimeUnit.MICROSECONDS.toMillis(bufferInfo.presentationTimeUs));
                     int n2;
                     if ((0x1 & bufferInfo.flags) != 0x0) {
@@ -106,10 +106,9 @@ public class StdOutDevice extends EncoderDevice {
                     } else {
                         i = 0;
                     }
-                } else {
-                    if (dequeueOutputBuffer != -2) {
-                        continue;
-                    }
+                } else if (dequeueOutputBuffer == -3) {
+                    outputBuffers = null;
+                } else if (dequeueOutputBuffer == -2) {
                     System.out.print("MediaCodec.INFO_OUTPUT_FORMAT_CHANGED" + "\n");
                     outputFormat = mEncoder.getOutputFormat();
                     System.out.print("output mWidth: " + outputFormat.getInteger("mWidth") + "\n");
